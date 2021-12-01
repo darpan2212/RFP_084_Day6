@@ -22,10 +22,6 @@ public class CoinChange {
 		int min = minCoin(n, arr, ds);
 
 		System.out.println(min);
-
-		for (int i = 0; i < ds.length; i++) {
-			System.out.println(i + "==" + ds[i]);
-		}
 	}
 
 	public static int minCoin(int n, int arr[], int[] ds) {
