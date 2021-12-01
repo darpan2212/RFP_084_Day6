@@ -1,33 +1,52 @@
 package coinchange;
 
+import java.util.Scanner;
+
 public class CoinChange {
 
 	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		int[] arr = { 1, 2, 5, 10, 50, 100, 500, 1000 };
 
-		/*
-		 * int[] change = { 1, 5, 7 }; int n = 18;
-		 * 
-		 * int minChange = minCoin(n, change);
-		 */
-		System.out.println(minCoin(19, new int[] { 1, 5, 7 }));
+		System.out.println("Enter the amount");
+		int n = sc.nextInt();
+		sc.close();
+
+		int[] ds = new int[n + 1];
+
+		for (int i = 0; i < ds.length; i++) {
+			ds[i] = -1;
+		}
+
+		int min = minCoin(n, arr, ds);
+
+		System.out.println(min);
+
+		for (int i = 0; i < ds.length; i++) {
+			System.out.println(i + "==" + ds[i]);
+		}
 	}
 
-	public static int minCoin(int amount, int change[]) {
-		if (amount == 0) {
+	public static int minCoin(int n, int arr[], int[] ds) {
+		if (n == 0) {
 			return 0;
 		} else {
-			int ans = 0;
-			for (int i = 0; i < change.length; i++) {
-				if (amount - change[i] >= 0) {
-					int subAns = minCoin(amount - change[i], change);
-
-//					if (subAns < ans) {
-					ans = subAns + 1;
-//					}
-					System.out.println(subAns + "(" + (amount - change[i]) + ")\t" + ans + "(" + amount + ")");
+			int ans = Integer.MAX_VALUE;
+			for (int i = 0; i < arr.length; i++) {
+				if (n - arr[i] >= 0) {
+					int subAns;
+					if (ds[n - arr[i]] != -1) {
+						subAns = ds[n - arr[i]];
+					} else {
+						subAns = minCoin(n - arr[i], arr, ds);
+						ds[n - arr[i]] = subAns;
+					}
+					if (subAns + 1 < ans) {
+						ans = subAns + 1;
+					}
 				}
 			}
-
 			return ans;
 		}
 	}
